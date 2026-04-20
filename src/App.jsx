@@ -1280,41 +1280,92 @@ export default function HandledApp() {
     syncNote(id, null, true);
   };
 
+  //   const askAI = async () => {
+  //     if (!aiInput.trim() || aiLoading) return;
+  //     setAiLoading(true);
+  //     setAiResult(null);
+  //     setAiError('');
+  //     const text = aiInput.trim();
+  //     try {
+  //       const res = await fetch('https://api.anthropic.com/v1/messages', {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({
+  //           model: 'claude-sonnet-4-20250514',
+  //           max_tokens: 1000,
+  //           system: `You are an expert life insurance sales coach. A rep just heard an objection on a call. Give them a battle-tested response RIGHT NOW. Respond ONLY with valid JSON, no markdown:
+  // {"category":"one of Price/Delay/Spouse/Trust/Skepticism/Urgency/Health/Confusion/Comparison/Process/Self-Reliance/Product/Objection","psychology":"2-3 sentences on the real reason behind this objection","response":"3-5 sentences the rep says out loud — warm, confident, conversational, first person","followup":"2-3 sentences of tactical advice if prospect pushes back"}`,
+  //           messages: [
+  //             { role: 'user', content: `The prospect just said: "${text}"` },
+  //           ],
+  //         }),
+  //       });
+  //       const data = await res.json();
+  //       const raw = data.content?.map((b) => b.text || '').join('') || '';
+  //       const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+  //       const entry = { objection: text, ...parsed, ts: Date.now() };
+  //       setAiResult(entry);
+  //       const h = [entry, ...aiHistory];
+  //       setAiHistory(h);
+  //       saveAIHistory(h);
+  //       setAiInput('');
+  //     } catch {
+  //       setAiError('Something went wrong. Check your connection and try again.');
+  //     }
+  //     setAiLoading(false);
+  //   };
+
   const askAI = async () => {
     if (!aiInput.trim() || aiLoading) return;
     setAiLoading(true);
     setAiResult(null);
     setAiError('');
     const text = aiInput.trim();
+
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      // 🔗 We now point to our local Vercel Serverless Function
+      const res = await fetch('/api/coach', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: `You are an expert life insurance sales coach. A rep just heard an objection on a call. Give them a battle-tested response RIGHT NOW. Respond ONLY with valid JSON, no markdown:
-{"category":"one of Price/Delay/Spouse/Trust/Skepticism/Urgency/Health/Confusion/Comparison/Process/Self-Reliance/Product/Objection","psychology":"2-3 sentences on the real reason behind this objection","response":"3-5 sentences the rep says out loud — warm, confident, conversational, first person","followup":"2-3 sentences of tactical advice if prospect pushes back"}`,
-          messages: [
-            { role: 'user', content: `The prospect just said: "${text}"` },
-          ],
-        }),
+        body: JSON.stringify({ text }), // Send just the user input
       });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        console.error('🚨 THE REAL ERROR:', errorData);
+        throw new Error('API request failed');
+      }
+
       const data = await res.json();
-      const raw = data.content?.map((b) => b.text || '').join('') || '';
-      const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+
+      // 1. Get the raw text from Anthropic
+      let rawText = data.content[0].text;
+
+      // 2. Clean the markdown (Remove ```json and ```)
+      if (rawText.startsWith('```json')) {
+        rawText = rawText.replace(/^```json\n/, '').replace(/\n```$/, '');
+      } else if (rawText.startsWith('```')) {
+        rawText = rawText.replace(/^```\n/, '').replace(/\n```$/, '');
+      }
+
+      // We expect the text content to be in data.content[0].text from Anthropic
+      const parsed = JSON.parse(rawText);
       const entry = { objection: text, ...parsed, ts: Date.now() };
+
       setAiResult(entry);
+
+      // Update and Save history (matching your existing lines 654-657)
       const h = [entry, ...aiHistory];
       setAiHistory(h);
       saveAIHistory(h);
       setAiInput('');
-    } catch {
+    } catch (err) {
+      console.error('AI Coach Error:', err);
       setAiError('Something went wrong. Check your connection and try again.');
+    } finally {
+      setAiLoading(false);
     }
-    setAiLoading(false);
   };
-
   const modes = [
     { id: 'study', label: 'Study', icon: '◎' },
     { id: 'realtime', label: 'Live', icon: '●' },

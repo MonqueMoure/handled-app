@@ -2,6 +2,7 @@
   "name": "handled-app",
   "version": "1.0.0",
   "private": true,
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "@clerk/clerk-react": "^5.61.5",
     "@clerk/react": "^6.4.2",
