@@ -1163,7 +1163,7 @@ export default function HandledApp() {
   }, [aiResult, aiLoading]);
 
   // Inside HandledApp()
-  const { getToken, isLoaded, userId } = useAuth();
+  const { getToken, isLoaded, userId, signOut } = useAuth();
 
   useEffect(() => {
     const syncFromCloud = async () => {
@@ -1624,6 +1624,7 @@ export default function HandledApp() {
               Life Insurance · {objections.length} Objections · handled.coach
             </div>
           </div>
+          
           <div
             style={{
               display: 'flex',
@@ -1671,7 +1672,27 @@ export default function HandledApp() {
                 {m.icon} {m.label}
               </button>
             ))}
+            
           </div>
+          <button
+              className="hov"
+              onClick={() => signOut()}
+              style={{
+                background: 'transparent',
+                border: `1px solid ${C.border}`,
+                borderRadius: 8,
+                padding: '6px 10px',
+                color: C.creamDim,
+                fontSize: 10,
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: "'DM Sans', sans-serif",
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}
+            >
+              Log Out
+            </button>
         </div>
       </div>
 
