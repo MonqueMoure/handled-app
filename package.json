@@ -6,6 +6,7 @@
     "@clerk/clerk-react": "^5.61.5",
     "@clerk/react": "^6.4.2",
     "@supabase/supabase-js": "^2.103.3",
+    "@tanstack/react-router": "^1.168.23",
     "micro": "^10.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
