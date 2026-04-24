@@ -21,7 +21,7 @@ export default async function handler(req, res) {
             mode: 'subscription',
             // 🔥 CRITICAL: We attach the Clerk User ID here so the webhook knows who paid
             client_reference_id: userId,
-            success_url: `${req.headers.origin}/`,
+            success_url: `${req.headers.origin}/dashboard`,
             cancel_url: `${req.headers.origin}/`,
             metadata: {
                 userId: userId
