@@ -23,9 +23,9 @@ const Refunds = () => {
         <p className={styles.p}>Because HANDLED. provides immediate access to digital content upon subscription, we generally do not offer refunds for completed billing periods. When you subscribe, you gain instant access to the full objection library, all study modes, and the AI Coach — and that access begins immediately.</p>
         <p className={styles.p}>That said, we believe in fairness and we review refund requests on a case-by-case basis with your satisfaction genuinely in mind.</p>
 
-        <h2 className={styles.h2}>7-Day Satisfaction Window</h2>
-        <p className={styles.p}>If you subscribe to HANDLED. and feel within the first 7 days that it is not right for you, contact us at <a href="mailto:hello@handled.coach" className={styles.a}>hello@handled.coach</a> and we will issue a full refund — no questions asked.</p>
-        <p className={styles.p}>This 7-day window applies to your first subscription period only and is available once per customer.</p>
+        <h2 className={styles.h2}>48-Hour Satisfaction Window</h2>
+        <p className={styles.p}>If you subscribe to HANDLED. and feel within the first 48 hours that it is not right for you, contact us at <a href="mailto:hello@handled.coach" className={styles.a}>hello@handled.coach</a> and we will issue a full refund — no questions asked.</p>
+        <p className={styles.p}>This 48-hour window applies to your first subscription period only and is available once per customer.</p>
 
         <h2 className={styles.h2}>Common Scenarios</h2>
 
@@ -36,7 +36,7 @@ const Refunds = () => {
 
         <div className={styles.scenario}>
           <p className={styles.scenarioTitle}>Annual Subscriber — Cancels Mid-Year</p>
-          <p>You will retain access through the end of your annual period. We do not issue prorated refunds for the unused portion of an annual subscription unless you are within the 7-day satisfaction window or there are exceptional circumstances.</p>
+          <p>You will retain access through the end of your annual period. We do not issue prorated refunds for the unused portion of an annual subscription unless you are within the 48-hour satisfaction window or there are exceptional circumstances.</p>
         </div>
 
         <div className={styles.scenario}>
