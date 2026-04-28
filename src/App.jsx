@@ -4,6 +4,7 @@ import { Show, SignIn, useUser } from '@clerk/react';
 
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
+import Welcome from './pages/Welcome';
 import Terms from './pages/Terms';
 import Privacy from './pages/Privacy';
 import Refunds from './pages/Refunds';
@@ -163,6 +164,7 @@ export default function App() {
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/refunds" element={<Refunds />} />
+                <Route path="/welcome" element={<Welcome />} />
                 <Route path="/dashboard" element={<ProtectedDashboard />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
